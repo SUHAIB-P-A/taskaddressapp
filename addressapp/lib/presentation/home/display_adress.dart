@@ -34,44 +34,42 @@ class HomeScreen extends StatelessWidget {
       );
     });
 
-    return BlocBuilder<AddUpdateListBloc, AddUpdateListState>(
-      builder: (context, state) {
-        if (state.errorMessage.isNotEmpty) {
-          return Center(
-            child: Text(
-              state.errorMessage,
-              style: const TextStyle(color: Colors.red, fontSize: 18),
-            ),
-          );
-        }
+    return Scaffold(
+      backgroundColor: const Color(0xfff5f6fa),
+      appBar: AppBar(
+        title: const Text('My Addresses'),
+        backgroundColor: const Color(0xff165069),
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: BlocBuilder<AddUpdateListBloc, AddUpdateListState>(
+          builder: (context, state) {
+            if (state.errorMessage.isNotEmpty) {
+              return Center(
+                child: Text(
+                  state.errorMessage,
+                  style: const TextStyle(color: Colors.red, fontSize: 18),
+                ),
+              );
+            }
 
-        if (state.isloading) {
-          return const Center(
-            child: CircularProgressIndicator(color: Color(0xff165069)),
-          );
-        }
+            if (state.isloading) {
+              return const Center(
+                child: CircularProgressIndicator(color: Color(0xff165069)),
+              );
+            }
 
-        if (state.addressList.isEmpty) {
-          return const Center(
-            child: Text(
-              'No addresses found. Please add an address.',
-              style: TextStyle(fontSize: 18),
-            ),
-          );
-        }
+            if (state.addressList.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No addresses found. Please add an address.',
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
+            }
 
-        
-
-        return Scaffold(
-          backgroundColor: const Color(0xfff5f6fa),
-          appBar: AppBar(
-            title: const Text('My Addresses'),
-            backgroundColor: const Color(0xff165069),
-            elevation: 0,
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: ListView.builder(
+            return ListView.builder(
               itemCount: state.addressList.length,
               itemBuilder: (context, index) {
                 final item = state.addressList[index];
@@ -82,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       SlidableAction(
                         onPressed: (context) async {
-                           Navigator.of(context).push(
+                          Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => AddAddressScreen(
                                 name: item['name'],
@@ -178,27 +176,25 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: const Color(0xff165069),
-            child: const Icon(Icons.add),
-            onPressed: () async {
-              final result = await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const AddAddressScreen(),
-                ),
-              );
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff165069),
+        child: const Icon(Icons.add),
+        onPressed: () async {
+          final result = await Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const AddAddressScreen()),
+          );
 
-              // if (result != null && result == true && result is bool) {
-              //   context.read<AddUpdateListBloc>().add(
-              //     const AddUpdateListEvent.futchData(),
-              //   );
-              // }
-            },
-          ),
-        );
-      },
+          // if (result != null && result == true && result is bool) {
+          //   context.read<AddUpdateListBloc>().add(
+          //     const AddUpdateListEvent.futchData(),
+          //   );
+          // }
+        },
+      ),
     );
   }
 }
