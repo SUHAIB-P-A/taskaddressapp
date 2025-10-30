@@ -184,15 +184,11 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: const Color(0xff165069),
         child: const Icon(Icons.add),
         onPressed: () async {
-          final result = await Navigator.of(context).push(
+           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const AddAddressScreen()),
           );
 
-          // if (result != null && result == true && result is bool) {
-          //   context.read<AddUpdateListBloc>().add(
-          //     const AddUpdateListEvent.futchData(),
-          //   );
-          // }
+          
         },
       ),
     );
